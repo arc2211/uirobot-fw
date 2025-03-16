@@ -1,4 +1,4 @@
-#include "motor_actuator.h"
+// #include "motor_actuator.h"
 
 #include <iostream>
 #include <fstream>
@@ -17,8 +17,8 @@ std::condition_variable queue_cv;
 std::atomic<bool> done(false); // Add this line to track end of logfile
     
 // Initialize motor objects
-MyActuator leftMotor(10);
-MyActuator rightMotor(11);
+// MyActuator leftMotor(10);
+// MyActuator rightMotor(11);
 float cpm = 3200 / 0.24;  // counts/m = counts/rev / m/rev
 
 // Function to transform the XY coordinates in meters to actuator positions in counts
@@ -111,17 +111,17 @@ void monitorLogFile(const std::string& logfile_path) {
     // Close the log files
     logfile.close();
     setpoint_log.close();
-    MyActuator::closeAllLogFiles();
+    // MyActuator::closeAllLogFiles();
     
     // Return puppet to zero position
-    leftMotor.returnToZero();
-    rightMotor.returnToZero();
-    MyActuator::startMotion();
+    // leftMotor.returnToZero();
+    // rightMotor.returnToZero();
+    // MyActuator::startMotion();
 
     std::this_thread::sleep_for(std::chrono::seconds(2));
     
     // Disable the motors and terminate the program
-    MyActuator::disableMotors();
+    // MyActuator::disableMotors();
     return;
 }
 
@@ -145,14 +145,14 @@ void processSetpoints() {
         lock.unlock(); // Unlock the mutex
 
         // Move the actuator to the new position
-        leftMotor.setMotorPos(positions[0]);
-        rightMotor.setMotorPos(positions[1]);
+        // leftMotor.setMotorPos(positions[0]);
+        // rightMotor.setMotorPos(positions[1]);
 
-        MyActuator::startMotion();
+        // MyActuator::startMotion();
 
         // // Simulate actuator movement
-        // std::cout << "a1: " << positions[0] << ", a2: " << positions[1] << std::endl;
-        // std::this_thread::sleep_for(std::chrono::milliseconds(100));
+        std::cout << "a1: " << positions[0] << ", a2: " << positions[1] << std::endl;
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
     }
 }
 
@@ -177,18 +177,18 @@ int main() {
     std::string logfile_path = "c:\\Users\\tighe\\uirobot-fw\\cloudgate\\setpoints_xy.csv";
 
     // Set the initial positions of the motors
-    leftMotor.setXpos(-0.546);  // meters
-    leftMotor.setYpos(1);  // meters
-    leftMotor.setD0(sqrt(pow(leftMotor.getXpos(), 2.0) + pow(leftMotor.getYpos(), 2.0)) * cpm);
-    std::cout << "leftMotor D0: " << leftMotor.getD0() << std::endl;
-    rightMotor.setXpos(0.483);
-    rightMotor.setYpos(1.2);
-    rightMotor.setD0(sqrt(pow(rightMotor.getXpos(), 2.0) + pow(rightMotor.getYpos(), 2.0)) * cpm);
-    std::cout << "rightMotor D0: " << rightMotor.getD0() << std::endl;
+    // leftMotor.setXpos(-0.546);  // meters
+    // leftMotor.setYpos(1);  // meters
+    // leftMotor.setD0(sqrt(pow(leftMotor.getXpos(), 2.0) + pow(leftMotor.getYpos(), 2.0)) * cpm);
+    // std::cout << "leftMotor D0: " << leftMotor.getD0() << std::endl;
+    // rightMotor.setXpos(0.483);
+    // rightMotor.setYpos(1.2);
+    // rightMotor.setD0(sqrt(pow(rightMotor.getXpos(), 2.0) + pow(rightMotor.getYpos(), 2.0)) * cpm);
+    // std::cout << "rightMotor D0: " << rightMotor.getD0() << std::endl;
 
-    // Connect to the gateway and configure the motors
-    MyActuator::connectGateway();
-    MyActuator::configureMotors();
+    // // Connect to the gateway and configure the motors
+    // MyActuator::connectGateway();
+    // MyActuator::configureMotors();
 
     std::this_thread::sleep_for(std::chrono::milliseconds(1000));
 
